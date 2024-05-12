@@ -102,3 +102,42 @@ int main() {
         Button("+Vol", font, {550, 100}),
         Button("-Vol", font, {650, 100})
     };
+ while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) window.close();
+
+            if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+                sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+                for (Button& btn : buttons) {
+                    if (btn.isHovered(mousePos)) {
+                        if (btn.text.getString() == "Play") player.play();
+                        else if (btn.text.getString() == "Pause") player.pause();
+                        else if (btn.text.getString() == "Next") player.nextTrack();
+                        else if (btn.text.getString() == ">>") player.fastForward(5);
+                        else if (btn.text.getString() == "Speed") player.adjustSpeed(0.1);
+                        else if (btn.text.getString() == "+Vol") player.adjustVolume(10);
+                        else if (btn.text.getString() == "-Vol") player.adjustVolume(-10);
+                        break;
+                    }
+                }
+            }
+
+            if (event.type == sf::Event::MouseMoved) {
+                sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+                for (Button& btn : buttons) {
+                    btn.setColor(btn.isHovered(mousePos) ? sf::Color(150, 150, 250) : sf::Color::White);
+                }
+            }
+        }
+
+        window.clear(sf::Color::Black);
+        for (Button& btn : buttons) {
+            btn.drawTo(window);
+        }
+        window.display();
+    }
+
+    return 0;
+}
+
