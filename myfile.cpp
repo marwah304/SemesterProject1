@@ -82,4 +82,23 @@ public:
         music.setVolume(newVolume);
     }
 };
+int main() {
+    sf::RenderWindow window(sf::VideoMode(800, 200), "SFML Music Player", sf::Style::Titlebar | sf::Style::Close);
+    window.setFramerateLimit(60);
 
+    sf::Font font;
+    if (!font.loadFromFile("Arial.ttf")) {
+        std::cerr << "Could not load font\n";
+        return 1;
+    }
+
+    MusicPlayer player({"track1.ogg", "track2.ogg","track2.ogg","track3.ogg","track4.ogg"});
+    std::vector<Button> buttons = {
+        Button("Play", font, {50, 100}),
+        Button("Pause", font, {150, 100}),
+        Button("Next", font, {250, 100}),
+        Button(">>", font, {350, 100}),
+        Button("Speed", font, {450, 100}),
+        Button("+Vol", font, {550, 100}),
+        Button("-Vol", font, {650, 100})
+    };
